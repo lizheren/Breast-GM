@@ -1,0 +1,65 @@
+# VGG16 model with CUB2011 dataset
+
+MODEL_NAME: vgg16_pgnn_structure
+DATASET_NAME: cub
+
+DATASET_FULL_NAME: CUB2011
+
+MODULE: PGNN_structure.model
+
+BACKBONE: VGG16_bn
+
+BATCH_SIZE: 8
+DATALOADER_NUM: 4
+
+RANDOM_SEED: 123
+
+# Problem configuration
+PROBLEM:
+  TYPE: 2GM
+  RESCALE:  # rescaled image size
+    - 256
+    - 256
+
+# CUB2011 dataset settings
+CUB2011:
+  CLASS_SPLIT: all
+
+# Graph construction settings
+GRAPH:
+  SRC_GRAPH_CONSTRUCT: tri
+  TGT_GRAPH_CONSTRUCT: tri
+  SYM_ADJACENCY: True
+
+# Training settings
+TRAIN:
+  # start, end epochs
+  START_EPOCH: 5
+  NUM_EPOCHS: 6
+
+  LOSS_FUNC: perm
+
+  # learning rate
+  LR: 1.0e-4
+  MOMENTUM: 0.9
+  LR_DECAY: 0.1
+  LR_STEP:  # (in epochs)
+    - 10 #4
+
+  EPOCH_ITERS: 2500  # iterations per epoch
+
+  CLASS: none
+
+# Evaluation settings
+EVAL:
+  EPOCH: 30  # epoch to be tested
+  SAMPLES: 1000  # number of tested pairs for each class
+
+# PGNN_structure model parameters
+PGNN_structure:
+  FEATURE_CHANNEL: 512
+  GNN_FEAT: 2048
+  GNN_LAYER: 2
+  BS_ITER_NUM: 20
+  BS_EPSILON: 1.0e-10
+  VOTING_ALPHA: 20.
